@@ -1,0 +1,35 @@
+# --- General ---
+*.log
+*.tmp
+*.swp
+*.DS_Store
+__pycache__/
+.env
+
+# --- Python / Backend ---
+backend/__pycache__/
+backend/.venv/
+backend/venv/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+
+# --- Node / Frontend ---
+frontend/node_modules/
+frontend/.env
+frontend/build/
+frontend/dist/
+frontend/.cache/
+
+# --- Virtual environments ---
+.venv/
+venv/
+env/
+ENV/
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+*.ipynb
+
+/backend/final_vgg16_cnn_finetuned.h5

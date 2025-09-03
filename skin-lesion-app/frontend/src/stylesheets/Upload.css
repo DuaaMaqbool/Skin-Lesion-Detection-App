@@ -1,0 +1,354 @@
+/* Upload.css */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+  line-height: 1.6;
+}
+
+.upload-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  background: linear-gradient(135deg, #2c7da0 0%, #01497c 100%);
+  color: white;
+  padding: 1.5rem 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+.header-content h1 {
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.header-content p {
+  opacity: 0.9;
+}
+
+.main-content {
+  flex: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 2rem auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 992px) {
+  .main-content {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.upload-card, .results-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #eaeaea;
+  background-color: #f8f9fa;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-header h2 {
+  color: #01497c;
+  font-size: 1.5rem;
+}
+
+.card-header p {
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.upload-area {
+  padding: 2rem;
+}
+
+.file-input {
+  display: none;
+}
+
+.upload-label {
+  display: block;
+  border: 2px dashed #c4d7e6;
+  border-radius: 8px;
+  padding: 2.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.upload-label:hover {
+  border-color: #2c7da0;
+  background-color: #f0f8ff;
+}
+
+.upload-content i {
+  font-size: 3rem;
+  color: #2c7da0;
+  margin-bottom: 1rem;
+}
+
+.upload-content p {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: #01497c;
+}
+
+.upload-content span {
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.error-message {
+  background-color: #ffe6e6;
+  color: #d32f2f;
+  padding: 0.8rem 1rem;
+  border-radius: 6px;
+  margin: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.preview-section {
+  padding: 0 1.5rem;
+}
+
+.preview-section h3 {
+  margin-bottom: 1rem;
+  color: #01497c;
+}
+
+.image-container {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.image-container img {
+  max-width: 100%;
+  max-height: 300px;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.predict-button {
+  display: block;
+  width: calc(100% - 3rem);
+  margin: 1.5rem;
+  padding: 1rem;
+  background-color: #2c7da0;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.predict-button:hover:not(:disabled) {
+  background-color: #01497c;
+}
+
+.predict-button:disabled {
+  background-color: #a0a0a0;
+  cursor: not-allowed;
+}
+
+.predict-button.loading {
+  background-color: #2c7da0;
+}
+
+.results-card {
+  align-self: start;
+}
+
+.result-content {
+  padding: 1.5rem;
+}
+
+.primary-result {
+  margin-bottom: 2rem;
+}
+
+.primary-result h3 {
+  color: #6c757d;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+}
+
+.prediction-display {
+  background-color: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.class-name {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #01497c;
+}
+
+.confidence {
+  font-size: 1.1rem;
+  color: #2c7da0;
+}
+
+.secondary-results {
+  margin-bottom: 1.5rem;
+}
+
+.secondary-results h4 {
+  color: #6c757d;
+  margin-bottom: 1rem;
+}
+
+.probability-item {
+  margin-bottom: 1rem;
+}
+
+.prob-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.3rem;
+}
+
+.prob-name {
+  color: #495057;
+}
+
+.prob-percentage {
+  color: #2c7da0;
+  font-weight: 500;
+}
+
+.prob-bar {
+  height: 8px;
+  background-color: #e9ecef;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.prob-fill {
+  height: 100%;
+  background-color: #2c7da0;
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.risk-badge {
+  padding: 0.4rem 0.8rem;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.risk-badge.low {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.risk-badge.medium {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.risk-badge.high {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.results-footer {
+  background-color: #e8f4f8;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #0066cc;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.results-footer i {
+  margin-top: 0.1rem;
+}
+
+.app-footer {
+  background-color: #01497c;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  margin-top: 2rem;
+}
+
+/* Font Awesome icons (using a CDN in the HTML would be better) */
+/* This is a fallback */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.upload-card, .results-card {
+  animation: fadeIn 0.5s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .header-content h1 {
+    font-size: 1.8rem;
+  }
+  
+  .main-content {
+    padding: 0 1rem;
+    grid-template-columns: 1fr;
+  }
+  
+  .upload-content i {
+    font-size: 2.5rem;
+  }
+  
+  .prediction-display {
+    padding: 1rem;
+  }
+  
+  .class-name {
+    font-size: 1.2rem;
+  }
+}
