@@ -32,4 +32,4 @@ ENV/
 .ipynb_checkpoints/
 *.ipynb
 
-/backend/final_vgg16_cnn_finetuned.h5
+
