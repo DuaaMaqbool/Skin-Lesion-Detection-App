@@ -11,7 +11,7 @@ app = Flask(__name__)
 CORS(app)  # enable CORS so frontend can connect
 
 # Load trained model
-MODEL_PATH = "final_vgg16_cnn_finetuned.h5"
+MODEL_PATH = " backend/final_vgg16_cnn_finetuned.h5"
 model = tf.keras.models.load_model(MODEL_PATH)
 
 # Mapping class indices to names
