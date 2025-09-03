@@ -4,14 +4,17 @@ import tensorflow as tf
 import numpy as np
 from PIL import Image
 import io
-from tensorflow.keras.applications.vgg16 import preprocess_input
+from waitress import serve  # <-- import Waitress
 
+# Initialize Flask app
 app = Flask(__name__)
-CORS(app)
+CORS(app)  # enable CORS so frontend can connect
 
-MODEL_PATH = "final_vgg16_cnn_finetuned.h5"
+# Load trained model
+MODEL_PATH = "backend/final_vgg16_cnn_finetuned.h5"
 model = tf.keras.models.load_model(MODEL_PATH)
 
+# Mapping class indices to names
 CLASS_NAMES = {
     0: "actinic keratosis",
     1: "basal cell carcinoma",
@@ -20,41 +23,47 @@ CLASS_NAMES = {
     4: "nevus"
 }
 
-def prepare_image(image_bytes, target_size=(224, 224)):
-    img = Image.open(io.BytesIO(image_bytes)).convert("RGB")
-    img = img.resize(target_size, Image.LANCZOS)
-    arr = np.array(img).astype("float32")
-    arr = np.expand_dims(arr, axis=0)
-    # IMPORTANT: use same preprocessing as during training (VGG16)
-    arr = preprocess_input(arr)
-    return arr
-
+# Prediction endpoint
 @app.route("/predict", methods=["POST"])
 def predict():
     if "file" not in request.files:
         return jsonify({"error": "No file uploaded"}), 400
 
     file = request.files["file"]
+
     try:
-        img_bytes = file.read()
-        x = prepare_image(img_bytes)
-        preds = model.predict(x)[0]  # shape: (num_classes,)
+        img = Image.open(io.BytesIO(file.read()))
+        img = img.resize((224, 224))
+        img_array = np.array(img) / 255.0
+        img_array = np.expand_dims(img_array, axis=0)
 
-        # top-3
-        top_idx = preds.argsort()[-3:][::-1]
-        top3 = [{"index": int(i),
-                 "name": CLASS_NAMES[int(i)],
-                 "probability": float(preds[int(i)])} for i in top_idx]
+        prediction = model.predict(img_array)
+        predicted_class = int(np.argmax(prediction, axis=1)[0])
+        confidence = float(np.max(prediction))
 
-        best_i = int(np.argmax(preds))
         return jsonify({
-            "predicted_class_index": best_i,
-            "predicted_class_name": CLASS_NAMES[best_i],
-            "confidence": float(preds[best_i]),
-            "top3": top3
+            "predicted_class_index": predicted_class,
+            "predicted_class_name": CLASS_NAMES[predicted_class],
+            "confidence": confidence
         })
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+# Serve the frontend build (optional)
+@app.route("/", defaults={"path": ""})
+@app.route("/<path:path>")
+def serve_frontend(path):
+    from flask import send_from_directory
+    import os
+    frontend_build_dir = os.path.join(os.getcwd(), "frontend", "build")
+    if path != "" and os.path.exists(os.path.join(frontend_build_dir, path)):
+        return send_from_directory(frontend_build_dir, path)
+    else:
+        return send_from_directory(frontend_build_dir, "index.html")
+
+
+# Run app with Waitress in production
 if __name__ == "__main__":
-    app.run(debug=True)
+    print("Starting server on http://0.0.0.0:5000")
+    serve(app, host="0.0.0.0", port=5000)
